@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MetaNotes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>MetaNotes</h1>
+        <div class="input-container">
+            <input type="text" id="noteInput" placeholder="transfer idea">
+            <select id="colorPicker">
+                <option value="#007bff">Blue</option>
+                <option value="#28a745">Green</option>
+                <option value="#dc3545">Red</option>
+                <option value="#6f42c1">Purple</option>
+                <option value="#000000">Black</option>
+                <option value="#ffc107">Yellow</option>
+                <option value="#fd7e14">Orange</option>
+                <option value="#e83e8c">Pink</option>
+            </select>
+            <button id="addNoteButton">Add Note</button>
+            <select id="animationPicker">
+                <option value="float">3D Sphere</option>
+                <option value="flash">Flash</option>
+            </select>
+        </div>
+        <button id="exportButton">Export Notes</button>
+        <div id="tagCloud"></div>
+        <p class="credits">designed by Salman Salihov, assembled by ChatGPT</p>
+    </div>
+    <script src="scripts.js"></script>
+</body>
+</html>
