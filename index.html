@@ -6,6 +6,7 @@
     <title>MetaNotes</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="/manifest.json">
 </head>
 <body>
     <div class="container">
@@ -35,7 +36,17 @@
         <p class="credits">designed by Salman Salihov, assembled by ChatGPT</p>
     </div>
     <script src="scripts.js"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js').then(function(registration) {
+          console.log('Service Worker registered with scope:', registration.scope);
+        }).catch(function(error) {
+          console.log('Service Worker registration failed:', error);
+        });
+      }
+    </script>
 </body>
 </html>
+
 
 
