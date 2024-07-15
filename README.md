@@ -2,7 +2,6 @@
 
 MetaNotes is a web application for brainstorming using animated tags. Users can add, move, and export notes, with various animations and color options.
 
-![MetaNotes Screenshot](path/to/your/screenshot.png)
 
 ## Features
 
@@ -23,7 +22,7 @@ MetaNotes is a web application for brainstorming using animated tags. Users can 
 
 ## Live Demo
 
-Check out the live demo [here](https://username.github.io/metanotes).
+Check out the live demo [here](https://slmnconcepts.github.io/metanotes).
 
 ## License
 
