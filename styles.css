@@ -5,7 +5,7 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
-    background-color: #333;
+    background-color: #1a1a1a;
     color: white;
 }
 
@@ -19,49 +19,53 @@ body {
 h1 {
     font-size: 3rem;
     color: lime;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    color: white;
     margin-bottom: 20px;
 }
 
 .input-container {
-    margin-bottom: 20px;
+    margin-top: 20px;
     display: flex;
-    align-items: center;
+    flex-wrap: wrap;
     justify-content: center;
 }
 
 #noteInput {
     padding: 10px;
     font-size: 16px;
-    border-radius: 5px;
-    border: 2px solid #007bff;
-    margin-right: 5px;
-}
-
-#colorPicker {
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 5px;
+    border-radius: 10px;
     border: none;
-    margin-right: 5px;
-    cursor: pointer;
+    margin: 5px;
+    flex: 2;
+    min-width: 200px;
 }
 
-#addNoteButton, #animationPicker, #exportButton {
+#addNoteButton, #colorPicker, #animationPicker, #exportButton {
     padding: 10px;
     font-size: 16px;
-    border-radius: 5px;
+    border-radius: 10px;
     border: none;
     margin: 5px;
     cursor: pointer;
+}
+
+#colorPicker {
+    background: linear-gradient(to right, red, orange, yellow, green, cyan, blue, violet);
+    color: white;
 }
 
 #tagCloud {
     margin-top: 20px;
     position: relative;
     width: 100%;
-    height: 70vh;
-    border: 1px solid #ccc;
-    background-color: #444;
+    height: 50vh;
+    border: 1px solid #333;
+    background-color: #2a2a2a;
     overflow: hidden;
     border-radius: 10px;
     box-sizing: border-box;
@@ -106,7 +110,7 @@ h1 {
     }
 
     #tagCloud {
-        height: 50vh;
+        height: 40vh;
     }
 
     .tag {
@@ -121,7 +125,7 @@ h1 {
     }
 
     #tagCloud {
-        height: 40vh;
+        height: 30vh;
     }
 
     .tag {

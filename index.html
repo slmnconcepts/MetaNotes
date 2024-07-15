@@ -10,8 +10,11 @@
 <body>
     <div class="container">
         <h1>MetaNotes</h1>
+        <p class="subtitle">Анимированное облако мыслей</p>
+        <div id="tagCloud"></div>
         <div class="input-container">
-            <input type="text" id="noteInput" placeholder="transfer idea">
+            <input type="text" id="noteInput" placeholder="Ввод тег-мысли...">
+            <button id="addNoteButton">Ввод</button>
             <select id="colorPicker">
                 <option value="#007bff">Blue</option>
                 <option value="#28a745">Green</option>
@@ -22,16 +25,16 @@
                 <option value="#fd7e14">Orange</option>
                 <option value="#e83e8c">Pink</option>
             </select>
-            <button id="addNoteButton">Add Note</button>
             <select id="animationPicker">
+                <option value="float">Анимация</option>
                 <option value="float">3D Sphere</option>
                 <option value="flash">Flash</option>
             </select>
+            <button id="exportButton">Экспорт TXT</button>
         </div>
-        <button id="exportButton">Export Notes</button>
-        <div id="tagCloud"></div>
         <p class="credits">designed by Salman Salihov, assembled by ChatGPT</p>
     </div>
     <script src="scripts.js"></script>
 </body>
 </html>
+
