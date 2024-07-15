@@ -57,9 +57,9 @@ function addNoteToCloud(text) {
     // Apply animation
     const animationPicker = document.getElementById('animationPicker');
     if (animationPicker.value === 'float') {
-        noteElement.style.animation = `float 7s infinite alternate`; // Increased duration from 6s to 7s
+        noteElement.style.animation = `float 10s infinite alternate`; // Reduced speed further
     } else if (animationPicker.value === 'flash') {
-        noteElement.style.animation = `flash 1.4s infinite`; // Increased duration from 1.2s to 1.4s
+        noteElement.style.animation = `flash 2s infinite`; // Reduced speed further
     }
 
     // Enable dragging
@@ -97,8 +97,8 @@ function moveNoteRandomly(noteElement) {
     const tagCloud = document.getElementById('tagCloud');
     const cloudWidth = tagCloud.offsetWidth;
     const cloudHeight = tagCloud.offsetHeight;
-    let dx = (Math.random() - 0.5) * 3.24; // Reduced speed further
-    let dy = (Math.random() - 0.5) * 3.24; // Reduced speed further
+    let dx = (Math.random() - 0.5) * 1.62; // Reduced speed further
+    let dy = (Math.random() - 0.5) * 1.62; // Reduced speed further
 
     function updatePosition() {
         let rect = noteElement.getBoundingClientRect();
