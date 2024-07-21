@@ -72,6 +72,7 @@ function addNoteToCloud(text, color = '#007bff', animation = 'float', position =
 }
 
 let draggedElement = null;
+let animationsPaused = false;
 
 function dragStart(event) {
     draggedElement = event.target;
@@ -88,6 +89,8 @@ function dragEnd(event) {
 }
 
 function moveNoteRandomly(noteElement) {
+    if (animationsPaused) return;
+
     const tagCloud = document.getElementById('tagCloud');
     const cloudWidth = tagCloud.offsetWidth;
     const cloudHeight = tagCloud.offsetHeight;
@@ -95,6 +98,8 @@ function moveNoteRandomly(noteElement) {
     let dy = (Math.random() - 0.5) * 1.62;
 
     function updatePosition() {
+        if (animationsPaused) return;
+
         let rect = noteElement.getBoundingClientRect();
         let parentRect = tagCloud.getBoundingClientRect();
 
@@ -112,6 +117,19 @@ function moveNoteRandomly(noteElement) {
     }
 
     requestAnimationFrame(updatePosition);
+}
+
+function toggleAnimations() {
+    animationsPaused = !animationsPaused;
+    const tags = document.getElementsByClassName('tag');
+    for (let tag of tags) {
+        if (animationsPaused) {
+            tag.style.animationPlayState = 'paused';
+        } else {
+            tag.style.animationPlayState = 'running';
+            moveNoteRandomly(tag);
+        }
+    }
 }
 
 function saveNotes() {
@@ -144,31 +162,10 @@ function loadNotes() {
 
 window.onload = loadNotes;
 
-function moveNoteRandomly(noteElement) {
-    const tagCloud = document.getElementById('tagCloud');
-    const cloudWidth = tagCloud.offsetWidth;
-    const cloudHeight = tagCloud.offsetHeight;
-    let dx = (Math.random() - 0.5) * 1.62; // Reduced speed further
-    let dy = (Math.random() - 0.5) * 1.62; // Reduced speed further
-
-    function updatePosition() {
-        let rect = noteElement.getBoundingClientRect();
-        let parentRect = tagCloud.getBoundingClientRect();
-
-        // Check for collision with the edges
-        if (rect.left + dx < parentRect.left || rect.right + dx > parentRect.right) {
-            dx = -dx; // Reverse direction on x-axis
-        }
-        if (rect.top + dy < parentRect.top || rect.bottom + dy > parentRect.bottom) {
-            dy = -dy; // Reverse direction on y-axis
-        }
-
-        // Update position
-        noteElement.style.left = `${noteElement.offsetLeft + dx}px`;
-        noteElement.style.top = `${noteElement.offsetTop + dy}px`;
-
-        requestAnimationFrame(updatePosition);
+const tagCloud = document.getElementById('tagCloud');
+tagCloud.addEventListener('click', function(event) {
+    if (event.target === tagCloud) {
+        toggleAnimations();
     }
+});
 
-    requestAnimationFrame(updatePosition);
-}
