@@ -2,9 +2,9 @@ document.getElementById('addNoteButton').addEventListener('click', function() {
     const noteInput = document.getElementById('noteInput');
     const noteText = noteInput.value.trim();
     const colorPicker = document.getElementById('colorPicker');
-    const selectedColor = colorPicker.value; // Получаем выбранный цвет
+    const selectedColor = mode === 'manual' ? colorPicker.value : getRandomColor(); // Выбор цвета в зависимости от режима
     if (noteText) {
-        addNoteToCloud(noteText, selectedColor); // Передаем выбранный цвет
+        addNoteToCloud(noteText, selectedColor);
         noteInput.value = '';
         saveNotes();
     }
@@ -15,9 +15,9 @@ document.getElementById('noteInput').addEventListener('keypress', function(event
         const noteInput = document.getElementById('noteInput');
         const noteText = noteInput.value.trim();
         const colorPicker = document.getElementById('colorPicker');
-        const selectedColor = colorPicker.value; // Получаем выбранный цвет
+        const selectedColor = mode === 'manual' ? colorPicker.value : getRandomColor(); // Выбор цвета в зависимости от режима
         if (noteText) {
-            addNoteToCloud(noteText, selectedColor); // Передаем выбранный цвет
+            addNoteToCloud(noteText, selectedColor);
             noteInput.value = '';
             saveNotes();
         }
@@ -42,12 +42,24 @@ document.getElementById('exportButton').addEventListener('click', function() {
     link.click();
 });
 
+document.getElementById('modeSwitchButton').addEventListener('click', function() {
+    mode = mode === 'manual' ? 'auto' : 'manual';
+    document.getElementById('modeSwitchButton').innerText = mode === 'manual' ? 'Автоматический режим' : 'Ручной режим';
+});
+
+let mode = 'manual'; // Начальный режим
+
+function getRandomColor() {
+    const colors = ['#007bff', '#28a745', '#dc3545', '#6f42c1', '#000000', '#ffc107', '#fd7e14', '#e83e8c'];
+    return colors[Math.floor(Math.random() * colors.length)];
+}
+
 function addNoteToCloud(text, color = '#007bff', animation = 'float', position = {x: 0, y: 0}) {
     const tagCloud = document.getElementById('tagCloud');
     const noteElement = document.createElement('div');
     noteElement.className = 'tag';
     noteElement.innerText = text;
-    noteElement.style.backgroundColor = color; // Устанавливаем цвет заметки
+    noteElement.style.backgroundColor = color;
 
     const cloudWidth = tagCloud.offsetWidth;
     const cloudHeight = tagCloud.offsetHeight;
@@ -172,5 +184,6 @@ tagCloud.addEventListener('click', function(event) {
         toggleAnimations();
     }
 });
+
 
 
