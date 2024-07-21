@@ -1,8 +1,10 @@
 document.getElementById('addNoteButton').addEventListener('click', function() {
     const noteInput = document.getElementById('noteInput');
     const noteText = noteInput.value.trim();
+    const colorPicker = document.getElementById('colorPicker');
+    const selectedColor = colorPicker.value; // Получаем выбранный цвет
     if (noteText) {
-        addNoteToCloud(noteText);
+        addNoteToCloud(noteText, selectedColor); // Передаем выбранный цвет
         noteInput.value = '';
         saveNotes();
     }
@@ -12,8 +14,10 @@ document.getElementById('noteInput').addEventListener('keypress', function(event
     if (event.key === 'Enter') {
         const noteInput = document.getElementById('noteInput');
         const noteText = noteInput.value.trim();
+        const colorPicker = document.getElementById('colorPicker');
+        const selectedColor = colorPicker.value; // Получаем выбранный цвет
         if (noteText) {
-            addNoteToCloud(noteText);
+            addNoteToCloud(noteText, selectedColor); // Передаем выбранный цвет
             noteInput.value = '';
             saveNotes();
         }
@@ -43,7 +47,7 @@ function addNoteToCloud(text, color = '#007bff', animation = 'float', position =
     const noteElement = document.createElement('div');
     noteElement.className = 'tag';
     noteElement.innerText = text;
-    noteElement.style.backgroundColor = color;
+    noteElement.style.backgroundColor = color; // Устанавливаем цвет заметки
 
     const cloudWidth = tagCloud.offsetWidth;
     const cloudHeight = tagCloud.offsetHeight;
@@ -168,4 +172,5 @@ tagCloud.addEventListener('click', function(event) {
         toggleAnimations();
     }
 });
+
 
