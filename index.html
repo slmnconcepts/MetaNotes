@@ -4,18 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MetaNotes</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <link rel="manifest" href="manifest.json">
 </head>
 <body>
     <div class="container">
         <h1>MetaNotes</h1>
-        <p class="subtitle">Анимированное облако мыслей</p>
+        <div class="tabs-container">
+            <div id="tabs">
+                <!-- Вкладки будут добавлены динамически -->
+            </div>
+            <button id="addTabButton">+</button>
+        </div>
+        <div id="currentTabName"></div>
         <div id="tagCloud"></div>
         <div class="input-container">
-            <input type="text" id="noteInput" placeholder="Ввод тег-мысли...">
-            <button id="addNoteButton">Ввод</button>
+            <input type="text" id="noteInput" placeholder="Enter your note">
+            <button id="addNoteButton">Add Note</button>
             <select id="colorPicker">
                 <option value="#007bff">Blue</option>
                 <option value="#28a745">Green</option>
@@ -27,14 +32,11 @@
                 <option value="#e83e8c">Pink</option>
             </select>
             <select id="animationPicker">
-                <option value="float">Анимация</option>
-                <option value="float">3D Sphere</option>
+                <option value="float">Float</option>
                 <option value="flash">Flash</option>
             </select>
-            <button id="exportButton">Экспорт TXT</button>
-            <button id="modeSwitchButton">Автоматический режим</button> <!-- Новая кнопка переключения режимов -->
+            <button id="exportButton">Export TXT</button>
         </div>
-        <p class="credits">designed by Salman Salihov, assembled by ChatGPT</p>
     </div>
     <script src="scripts.js"></script>
     <script>
@@ -48,6 +50,7 @@
     </script>
 </body>
 </html>
+
 
 
 
