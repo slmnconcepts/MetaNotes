@@ -22,10 +22,55 @@ h1 {
     margin-bottom: 10px;
 }
 
-.subtitle {
-    font-size: 1.2rem;
-    color: white;
+.tabs-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin-bottom: 20px;
+}
+
+#tabs {
+    display: flex;
+    gap: 10px;
+}
+
+.tab {
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    position: relative;
+}
+
+.tab .close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+#addTabButton {
+    padding: 10px;
+    background-color: lime;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#currentTabName {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    color: white;
 }
 
 .input-container {
@@ -55,8 +100,12 @@ h1 {
 }
 
 #colorPicker {
-    background-color: white;
-    color: black;
+    background-color: lime;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    cursor: pointer;
 }
 
 #colorPicker option {
@@ -103,7 +152,6 @@ h1 {
     100% { opacity: 1; transform: scale(1); }
 }
 
-/* Responsive Styles */
 @media (max-width: 768px) {
     h1 {
         font-size: 2rem;
