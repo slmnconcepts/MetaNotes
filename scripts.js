@@ -1,8 +1,21 @@
+let mode = 'manual'; // Начальный режим
+let tabs = JSON.parse(localStorage.getItem('tabs')) || []; // Загружаем вкладки из Local Storage
+let currentTabId = localStorage.getItem('currentTabId') || null;
+
+// Инициализация приложения
+window.onload = function() {
+    renderTabs();
+    if (currentTabId && tabs.length > 0) {
+        switchTab(currentTabId);
+    } else if (tabs.length > 0) {
+        switchTab(tabs[0].id);
+    }
+};
+
 document.getElementById('addNoteButton').addEventListener('click', function() {
     const noteInput = document.getElementById('noteInput');
     const noteText = noteInput.value.trim();
-    const colorPicker = document.getElementById('colorPicker');
-    const selectedColor = mode === 'manual' ? colorPicker.value : getRandomColor(); // Выбор цвета в зависимости от режима
+    const selectedColor = mode === 'manual' ? document.getElementById('colorPicker').value : getRandomColor();
     if (noteText) {
         addNoteToCloud(noteText, selectedColor);
         noteInput.value = '';
@@ -14,8 +27,7 @@ document.getElementById('noteInput').addEventListener('keypress', function(event
     if (event.key === 'Enter') {
         const noteInput = document.getElementById('noteInput');
         const noteText = noteInput.value.trim();
-        const colorPicker = document.getElementById('colorPicker');
-        const selectedColor = mode === 'manual' ? colorPicker.value : getRandomColor(); // Выбор цвета в зависимости от режима
+        const selectedColor = mode === 'manual' ? document.getElementById('colorPicker').value : getRandomColor();
         if (noteText) {
             addNoteToCloud(noteText, selectedColor);
             noteInput.value = '';
@@ -24,34 +36,77 @@ document.getElementById('noteInput').addEventListener('keypress', function(event
     }
 });
 
-document.getElementById('colorPicker').addEventListener('change', function(event) {
-    const noteInput = document.getElementById('noteInput');
-    noteInput.style.borderColor = event.target.value;
-});
-
-document.getElementById('exportButton').addEventListener('click', function() {
-    const tags = document.getElementsByClassName('tag');
-    let exportText = '';
-    for (let tag of tags) {
-        exportText += `${tag.innerText}\n`;
-    }
-    const blob = new Blob([exportText], { type: 'text/plain' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = 'metanotes.txt';
-    link.click();
-});
-
 document.getElementById('modeSwitchButton').addEventListener('click', function() {
     mode = mode === 'manual' ? 'auto' : 'manual';
-    document.getElementById('modeSwitchButton').innerText = mode === 'manual' ? 'Автоматический режим' : 'Ручной режим';
+    document.getElementById('modeSwitchButton').innerText = mode === 'manual' ? 'Switch to Auto Mode' : 'Switch to Manual Mode';
 });
 
-let mode = 'manual'; // Начальный режим
+document.getElementById('addTabButton').addEventListener('click', function() {
+    const newTabName = prompt('Enter name for the new tab');
+    if (newTabName) {
+        addTab(newTabName);
+    }
+});
 
-function getRandomColor() {
-    const colors = ['#007bff', '#28a745', '#dc3545', '#6f42c1', '#000000', '#ffc107', '#fd7e14', '#e83e8c'];
-    return colors[Math.floor(Math.random() * colors.length)];
+function addTab(name) {
+    const tabId = `tab-${Date.now()}`;
+    tabs.push({ id: tabId, name: name, notes: [] });
+    renderTabs();
+    switchTab(tabId);
+    saveTabs();
+}
+
+function switchTab(tabId) {
+    currentTabId = tabId;
+    const currentTab = tabs.find(tab => tab.id === tabId);
+    document.getElementById('currentTabName').innerText = currentTab.name;
+    renderNotes();
+    saveCurrentTabId();
+}
+
+function closeTab(tabId) {
+    tabs = tabs.filter(tab => tab.id !== tabId);
+    if (tabs.length > 0) {
+        switchTab(tabs[0].id);
+    } else {
+        currentTabId = null;
+        document.getElementById('currentTabName').innerText = '';
+        document.getElementById('tagCloud').innerHTML = '';
+    }
+    renderTabs();
+    saveTabs();
+}
+
+function renderTabs() {
+    const tabsContainer = document.getElementById('tabs');
+    tabsContainer.innerHTML = '';
+    tabs.forEach(tab => {
+        const tabElement = document.createElement('div');
+        tabElement.className = 'tab';
+        tabElement.id = tab.id;
+        tabElement.innerText = tab.name;
+        tabElement.onclick = () => switchTab(tab.id);
+
+        const closeButton = document.createElement('button');
+        closeButton.className = 'close';
+        closeButton.innerText = 'x';
+        closeButton.onclick = (e) => {
+            e.stopPropagation();
+            closeTab(tab.id);
+        };
+
+        tabElement.appendChild(closeButton);
+        tabsContainer.appendChild(tabElement);
+    });
+}
+
+function renderNotes() {
+    const currentTab = tabs.find(tab => tab.id === currentTabId);
+    const tagCloud = document.getElementById('tagCloud');
+    tagCloud.innerHTML = '';
+    currentTab.notes.forEach(note => {
+        addNoteToCloud(note.text, note.color, note.animation, note.position);
+    });
 }
 
 function addNoteToCloud(text, color = '#007bff', animation = 'float', position = {x: 0, y: 0}) {
@@ -149,6 +204,8 @@ function toggleAnimations() {
 }
 
 function saveNotes() {
+    const currentTab = tabs.find(tab => tab.id === currentTabId);
+    if (!currentTab) return;
     const notes = [];
     const tags = document.getElementsByClassName('tag');
     for (let tag of tags) {
@@ -163,20 +220,22 @@ function saveNotes() {
         };
         notes.push(note);
     }
-    localStorage.setItem('notes', JSON.stringify(notes));
+    currentTab.notes = notes;
+    saveTabs();
 }
 
-function loadNotes() {
-    const savedNotes = localStorage.getItem('notes');
-    if (savedNotes) {
-        const notes = JSON.parse(savedNotes);
-        for (let note of notes) {
-            addNoteToCloud(note.text, note.color, note.animation, note.position);
-        }
-    }
+function saveTabs() {
+    localStorage.setItem('tabs', JSON.stringify(tabs));
 }
 
-window.onload = loadNotes;
+function saveCurrentTabId() {
+    localStorage.setItem('currentTabId', currentTabId);
+}
+
+function getRandomColor() {
+    const colors = ['#007bff', '#28a745', '#dc3545', '#6f42c1', '#000000', '#ffc107', '#fd7e14', '#e83e8c'];
+    return colors[Math.floor(Math.random() * colors.length)];
+}
 
 const tagCloud = document.getElementById('tagCloud');
 tagCloud.addEventListener('click', function(event) {
@@ -184,6 +243,7 @@ tagCloud.addEventListener('click', function(event) {
         toggleAnimations();
     }
 });
+
 
 
 
